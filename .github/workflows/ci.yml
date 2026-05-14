@@ -1,0 +1,58 @@
+name: S32 Template Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  # -------------------------------------------------------------------------
+  # Job 1: Build target firmware with ARM GCC
+  # -------------------------------------------------------------------------
+  build-firmware:
+    name: Build Target Firmware
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Install ARM GCC Toolchain
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi
+
+      - name: Build Target Firmware
+        run: |
+          mkdir -p build_target
+          cd build_target
+          cmake ../target_build \
+            -DCMAKE_TOOLCHAIN_FILE=../cmake/gcc_arm_eabi_toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+          cmake --build .
+
+  # -------------------------------------------------------------------------
+  # Job 2: Build and run host tests with GoogleTest / CTest
+  # -------------------------------------------------------------------------
+  build-tests:
+    name: Build and Run Host Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake
+
+      - name: Build and Run Host Tests
+        run: |
+          mkdir -p build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+          cmake --build .
+          ctest -V

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "Running formatter..."
+
+# Format only files directly inside src/ (non-recursive)
+find src -maxdepth 1 -type f \( \
+    -name "*.h" -o \
+    -name "*.c" -o \
+    -name "*.cpp" -o \
+    -name "*.hpp" \
+\) ! -name "main.c" \
+-exec uncrustify -c .uncrustify.cfg --replace --no-backup {} \;
+
+# Re-stage modified files after formatting
+git add src
+
+exit 0
