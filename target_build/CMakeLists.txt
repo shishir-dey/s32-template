@@ -25,22 +25,22 @@ set(target_name "s32_template")
 # Source directories (application + SDK device init files)
 set(src_folder
     "${CMAKE_CURRENT_SOURCE_DIR}/../src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../src/Project_Settings"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/Project_Settings"
 )
 
 # SDK source files providing SystemInit and init_data_bss
 set(sdk_src_files
-    "${CMAKE_CURRENT_SOURCE_DIR}/../src/SDK/platform/devices/startup.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../src/SDK/platform/devices/S32K144/startup/system_S32K144.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/devices/startup.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/devices/S32K144/startup/system_S32K144.c"
 )
 
 # ASM files
 list(APPEND CMAKE_ASM_SOURCE_FILE_EXTENSIONS S asm inc)
-set(asm_files "${CMAKE_CURRENT_SOURCE_DIR}/../src/Project_Settings/Startup_Code/startup_S32K144.S")
+set(asm_files "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/Project_Settings/Startup_Code/startup_S32K144.S")
 SET_SOURCE_FILES_PROPERTIES(${asm_files} PROPERTIES LANGUAGE ASM)
 
 # Linker script
-set(link_file "${CMAKE_CURRENT_SOURCE_DIR}/../src/Project_Settings/Linker_Files/S32K144_64_flash.ld")
+set(link_file "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/Project_Settings/Linker_Files/S32K144_64_flash.ld")
 
 # Preprocessor definitions for target
 add_compile_definitions(
@@ -51,10 +51,17 @@ add_compile_definitions(
 
 # SDK include directories
 include_directories(
-    "${CMAKE_CURRENT_SOURCE_DIR}/../src/SDK/platform/devices"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../src/SDK/platform/devices/common"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../src/SDK/platform/devices/S32K144/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../src/SDK/platform/devices/S32K144/startup"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/devices"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/devices/common"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/devices/S32K144/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/devices/S32K144/startup"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/drivers/inc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/drivers/src/adc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/platform/pal/inc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/rtos/osif"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/rtos/FreeRTOS_S32K/Source/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/SDK/rtos/FreeRTOS_S32K/Source/portable/GCC/ARM_CM4F"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/NXP/Generated_Code"
 )
 
 # Find source files for target (exclude SDK - those are added explicitly)

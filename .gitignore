@@ -15,3 +15,7 @@ Debug_FLASH
 build
 build_target
 .DS_Store
+*.map
+*.elf
+*.hex
+*.s19
