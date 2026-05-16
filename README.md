@@ -9,32 +9,53 @@ Includes a two-stage build system: ARM cross-compiled firmware **and** native ho
 
 ```
 s32-template/
-├── CMakeLists.txt                  # Host test build (root)
-├── cmake/
-│   └── gcc_arm_eabi_toolchain.cmake  # ARM GCC toolchain (env-var driven)
-├── target_build/
-│   └── CMakeLists.txt              # Target firmware build entry-point
-├── src/
-│   ├── main.c                      # Application entry
-│   ├── Project_Settings/
-│   │   ├── Linker_Files/           # .ld linker scripts
-│   │   └── Startup_Code/           # startup_S32K144.S
-│   └── SDK/                        # NXP SDK (platform drivers, rtos, etc.)
-│       └── platform/devices/
-│           ├── startup.c           # init_data_bss implementation
-│           └── S32K144/startup/
-│               └── system_S32K144.c # SystemInit implementation
-├── tests/
-│   ├── CMakeLists.txt              # Test targets + CTest registration
-│   └── test_hello.cpp              # Sample GoogleTest
-├── external/
-│   └── googletest/                 # Git submodule
-├── doxygen/
-│   └── Doxyfile                    # XML doc generation from src/
+├── .github/
+│   └── workflows/
+│       └── ci.yml                         # CI: firmware build + host tests
 ├── .githooks/
-│   └── pre-commit                  # Auto-formatter hook (uncrustify)
-└── .github/workflows/
-    └── ci.yml                      # CI: firmware build + host tests
+│   └── pre-commit                         # Auto-formatter hook (uncrustify)
+├── benchmarks/
+│   ├── CMakeLists.txt                     # Google Benchmark target registration
+│   └── bench_hello.cpp                    # Sample benchmark
+├── cmake/
+│   └── gcc_arm_eabi_toolchain.cmake       # ARM GCC toolchain (env-var driven)
+├── doxygen/
+│   └── Doxyfile                           # XML doc generation from src/
+├── external/
+│   ├── benchmark/                         # Google Benchmark submodule
+│   └── googletest/                        # GoogleTest/GoogleMock submodule
+├── src/
+│   ├── app.c                              # Application code
+│   ├── main.c                             # Firmware entry point
+│   └── NXP/
+│       ├── Generated_Code/                # S32 Design Studio generated config
+│       │   ├── Cpu.c/.h
+│       │   ├── FreeRTOSConfig.h
+│       │   ├── clockMan1.c/.h
+│       │   ├── pin_mux.c/.h
+│       │   └── *_pal*.c/.h                # ADC, CAN, timing, UART PAL config
+│       ├── Project_Settings/
+│       │   ├── Linker_Files/              # S32K144 flash/RAM linker scripts
+│       │   └── Startup_Code/              # startup_S32K144.S
+│       └── SDK/
+│           ├── platform/
+│           │   ├── devices/               # Device headers and startup code
+│           │   ├── drivers/               # S32K platform drivers
+│           │   └── pal/                   # Peripheral abstraction layer
+│           └── rtos/
+│               ├── FreeRTOS_S32K/         # FreeRTOS kernel and ARM_CM4F port
+│               └── osif/                  # OS integration layer
+├── target_build/
+│   └── CMakeLists.txt                     # Target firmware build entry point
+├── tests/
+│   ├── CMakeLists.txt                     # Test targets + CTest registration
+│   └── test_hello.cpp                     # Sample GoogleTest
+├── .gitignore
+├── .gitmodules                            # Submodule definitions
+├── .uncrustify.cfg                        # Formatter configuration
+├── CMakeLists.txt                         # Native host tests + benchmarks build
+├── LICENSE
+└── README.md
 ```
 
 ---
@@ -92,8 +113,9 @@ cmake --build .
 | `s32_template.s19` | Motorola SREC |
 | `s32_template.map` | Linker map |
 
-> **Note:** `src/system_S32K144.c` contains minimal stubs for `SystemInit` and `init_data_bss`.  
-> Replace with NXP SDK's `system_S32K144.c` when integrating the full SDK.
+> **Note:** The target build links NXP SDK startup sources from
+> `src/NXP/SDK/platform/devices/startup.c` and
+> `src/NXP/SDK/platform/devices/S32K144/startup/system_S32K144.c`.
 
 ---
 
