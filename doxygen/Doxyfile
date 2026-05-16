@@ -15,7 +15,7 @@ GENERATE_LATEX         = NO
 GENERATE_XML           = NO
 XML_OUTPUT             = xml
 
-INPUT                  = ../src
+INPUT                  = src
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c *.h
 RECURSIVE              = YES
