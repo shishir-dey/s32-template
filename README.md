@@ -1,9 +1,6 @@
-# S32K144 Firmware Template
+# NXP S32 Firmware Template
 
-Boilerplate CMake project for NXP **S32K144** (Cortex-M4F) firmware development.  
-Includes a two-stage build system: ARM cross-compiled firmware **and** native host unit-tests via GoogleTest/CTest, with a GitHub Actions CI pipeline for both.
-
----
+A CMake template project for NXP S32 firmware development.
 
 ## Repository Layout
 
@@ -58,8 +55,6 @@ s32-template/
 └── README.md
 ```
 
----
-
 ## Prerequisites
 
 | Tool | Purpose | Install |
@@ -69,8 +64,6 @@ s32-template/
 | `gcc` / `g++` | Host test compilation | Xcode CLI tools: `xcode-select --install` |
 | `uncrustify` | Pre-commit code formatter | `brew install uncrustify` |
 | `doxygen` *(optional)* | Documentation generation | `brew install doxygen` |
-
----
 
 ## First-Time Setup
 
@@ -84,8 +77,6 @@ git submodule update --init --recursive
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-commit
 ```
-
----
 
 ## Building the Target Firmware (ARM)
 
@@ -113,43 +104,18 @@ cmake --build .
 | `s32_template.s19` | Motorola SREC |
 | `s32_template.map` | Linker map |
 
-> **Note:** The target build links NXP SDK startup sources from
-> `src/NXP/SDK/platform/devices/startup.c` and
-> `src/NXP/SDK/platform/devices/S32K144/startup/system_S32K144.c`.
-
----
 
 ## Building & Running Host Tests
 
 Host tests compile with the native system GCC (no cross-compiler needed).
 
 ```bash
-mkdir -p build
-cd build
+mkdir -p build_host
+cd build_host
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build .
 ctest -V
 ```
-
-Expected output:
-
-```
-100% tests passed, 0 tests failed out of 2
-Total Test time (real) =   0.57 sec
-```
-
-### Adding a New Test
-
-1. Create `tests/test_<module>.cpp`
-2. Add the executable to `tests/CMakeLists.txt`:
-
-```cmake
-add_executable(test_mymodule test_mymodule.cpp)
-target_link_libraries(test_mymodule gtest gtest_main)
-gtest_discover_tests(test_mymodule)
-```
-
----
 
 ## Pre-Commit Hook
 
@@ -163,8 +129,6 @@ chmod +x .githooks/pre-commit
 
 The hook is stored in `.githooks/` and is version-controlled — no manual copy to `.git/hooks/` is required.
 
----
-
 ## Doxygen Documentation
 
 ```bash
@@ -172,8 +136,6 @@ cd doxygen
 doxygen Doxyfile
 # XML output written to doxygen/xml/
 ```
-
----
 
 ## CI Pipeline
 
@@ -183,8 +145,6 @@ doxygen Doxyfile
 |-----|--------|--------------|
 | `build-firmware` | `ubuntu-latest` | Installs `gcc-arm-none-eabi`, configures + builds target firmware |
 | `build-tests` | `ubuntu-latest` | Builds GoogleTest + test binaries, runs `ctest -V` |
-
----
 
 ## Toolchain Environment Variables
 

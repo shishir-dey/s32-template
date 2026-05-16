@@ -43,9 +43,6 @@ include_directories(
 # Add tests directory
 add_subdirectory(tests)
 
-# ---------------------------------------------------------------------------
-# Google Benchmark
-# ---------------------------------------------------------------------------
 # Disable benchmark's own tests and gtest integration to avoid conflicts
 set(BENCHMARK_ENABLE_TESTING      OFF CACHE BOOL "" FORCE)
 set(BENCHMARK_ENABLE_GTEST_TESTS  OFF CACHE BOOL "" FORCE)

@@ -51,8 +51,8 @@ jobs:
 
       - name: Build and Run Host Tests
         run: |
-          mkdir -p build
-          cd build
+          mkdir -p build_host
+          cd build_host
           cmake .. -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
           cmake --build .
           ctest -V

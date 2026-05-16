@@ -2,8 +2,10 @@
 
 echo "Running formatter..."
 
-# Format only files directly inside src/ (non-recursive)
-find src -maxdepth 1 -type f \( \
+# Format only files directly inside src/ and tests/ (non-recursive)
+find src tests \
+    -path "src/autogen" -prune -o \ 
+    -maxdepth 1 -type f \( \
     -name "*.h" -o \
     -name "*.c" -o \
     -name "*.cpp" -o \

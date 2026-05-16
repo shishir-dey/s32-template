@@ -3,11 +3,12 @@ cmake_minimum_required(VERSION 3.10)
 # Tests for the s32_template project
 project(s32_template_tests_sub)
 
-# -----------------------------------------------------------------------
-# Sample GoogleTest test: HelloWorld
-# -----------------------------------------------------------------------
+include_directories(../src)
+
 add_executable(test_hello
     test_hello.cpp
+    test_queue.cpp
+    ../src/queue.c
 )
 
 target_link_libraries(test_hello

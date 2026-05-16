@@ -1,14 +1,14 @@
+/*
+ * NXP S32 Firmware Template
+ * File: benchmarks/bench_hello.cpp
+ * Description: Sample benchmark
+ * Author: Shishir Dey
+ * License: MIT
+ */
+
 #include <benchmark/benchmark.h>
 #include <cstring>
 #include <vector>
-
-/**
- * @brief Sample benchmark — replace with benchmarks of real firmware modules.
- *
- * Run with:
- *   ./build/benchmarks/bench_hello
- *   ./build/benchmarks/bench_hello --benchmark_format=json
- */
 
 // -----------------------------------------------------------------------
 // BM_Memcpy: measures raw memcpy throughput at various buffer sizes.

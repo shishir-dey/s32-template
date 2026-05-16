@@ -1,3 +1,11 @@
+/*
+ * NXP S32 Firmware Template
+ * File: tests/test_hello.cpp
+ * Description: Sample unit test
+ * Author: Shishir Dey
+ * License: MIT
+ */
+
 #include <gtest/gtest.h>
 
 /**

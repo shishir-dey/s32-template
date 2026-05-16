@@ -12,10 +12,6 @@ _deps
 CMakeUserPresets.json
 *.bak
 Debug_FLASH
-build
+build_host
 build_target
 .DS_Store
-*.map
-*.elf
-*.hex
-*.s19
